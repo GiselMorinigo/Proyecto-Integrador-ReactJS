@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Col, Row, Spinner } from "react-bootstrap";
 import { BsCartPlus } from "react-icons/bs";
 import Carrito from "../Carrito/Carrito";
+import { useNavigate } from "react-router-dom";
 
 const ListaProductos = () => {
   const [productos, setProductos] = useState([]);
   const [carrito, setCarrito] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
       .then((response) => response.json())
       .then((datos) => {
-        console.log("PRODUCTOS:", datos);
-
         setProductos(datos);
         setCargando(false);
       })
@@ -36,8 +36,12 @@ const ListaProductos = () => {
     }
   };
 
+  const verDetalle = (id) => {
+    navigate(`/productos/${id}`);
+  };
+
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
       <h1>Productos</h1>
       <div style={{ display: "flex", padding: "10px 0" }}>
         {cargando ? (
@@ -50,14 +54,22 @@ const ListaProductos = () => {
           <Row xs={2} md={4} className="g-4">
             {productos.map((prod) => (
               <Col key={prod.id}>
-                <Card style={{ height: "350px", maxWidth: "300px" }}>
+                <Card
+                  style={{
+                    height: "350px",
+                    maxWidth: "300px",
+                  }}
+                >
                   <Card.Img
                     variant="top"
                     src={prod.image}
+                    alt="imagen-producto"
+                    onClick={() => verDetalle(prod.id)}
                     style={{
                       height: "150px",
                       objectFit: "contain",
                       padding: "10px",
+                      cursor: "pointer",
                     }}
                   />
                   <Card.Body>
@@ -82,8 +94,10 @@ const ListaProductos = () => {
         )}
       </div>
 
+      <hr />
+
       <div>
-        <Carrito carrito={carrito} />
+        <Carrito carrito={carrito} setCarrito={setCarrito} />
 
         {carrito.length > 0 && (
           <Button onClick={() => setCarrito([])}>Vaciar carrito</Button>

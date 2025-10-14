@@ -11,7 +11,7 @@ const Inicio = () => {
       }}
     >
       <h2>Contenido Principal</h2>
-      <p>Este es un ejemplo de contenido dentro del area principal</p>
+      <p>Este es un ejemplo de contenido dentro del área principal</p>
     </main>
   );
 };

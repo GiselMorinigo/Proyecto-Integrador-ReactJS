@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 const ProductoDetalle = () => {
   const { id } = useParams();
-  const [producto, setProducto] = useState({});
+  const [detalleProducto, setDetalleProducto] = useState({});
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
@@ -12,14 +12,14 @@ const ProductoDetalle = () => {
     fetch(`https://fakestoreapi.com/products/${id}`)
       .then((response) => response.json())
       .then((datos) => {
-        setProducto(datos);
+        setDetalleProducto(datos);
         setCargando(false);
       })
       .catch(() => {
         setError("Error al cargar producto.");
         setCargando(false);
       });
-  }, []);
+  }, [id]);
 
   return (
     <div
@@ -32,15 +32,23 @@ const ProductoDetalle = () => {
     >
       {cargando ? (
         <div style={{ justifyContent: "center", margin: "auto" }}>
-          <Spinner /> Cargando productos...
+          <Spinner /> Cargando producto...
         </div>
       ) : error ? (
         <p style={{ color: "red" }}>{error}</p>
       ) : (
-        <div>
+        <div style={{ height: "100vh" }}>
           <h1>DETALLE DEL PRODUCTO</h1>
-          <h3>Producto: {producto.nombre}</h3>
-          <h3>Precio: ${producto.precio}</h3>
+          <div style={{ marginRight: "50%" }}>
+            <img
+              src={detalleProducto.image}
+              alt="imagen-producto"
+              style={{ maxWidth: "20%", margin: "10px 0" }}
+            />
+            <h3>{detalleProducto.title}</h3>
+            <p>Descripción: {detalleProducto.description}</p>
+            <h3>Precio: ${detalleProducto.price}</h3>
+          </div>
         </div>
       )}
     </div>
