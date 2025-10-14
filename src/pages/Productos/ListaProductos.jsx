@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Row, Spinner } from "react-bootstrap";
 import { BsCartPlus } from "react-icons/bs";
-import Carrito from "../Carrito/Carrito";
+import Carrito from "../Carrito/Carrito.jsx";
 import { useNavigate } from "react-router-dom";
 
 const ListaProductos = () => {

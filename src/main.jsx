@@ -9,7 +9,7 @@ const root = createRoot(document.getElementById("root"));
 
 root.render(
   <StrictMode>
-    <Router>
+    <Router basename="/Proyecto-Integrador-ReactJS">
       <App />
     </Router>
   </StrictMode>

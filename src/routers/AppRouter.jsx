@@ -1,13 +1,13 @@
 import { Route, Routes } from "react-router-dom";
-import Login from "../pages/Auth/Login";
-import Signup from "../pages/Auth/Signup";
-import Inicio from "../pages/Inicio/Inicio";
-import ListaProductos from "../pages/Productos/ListaProductos";
-import ProductoDetalle from "../pages/Productos/ProductoDetalle";
-import SobreNosotros from "../pages/SobreNosotros/SobreNosotros";
-import Contacto from "../pages/Contacto/Contacto";
-import Carrito from "../pages/Carrito/Carrito";
-import RutaProtegida from "../components/layouts/RutaProtegida";
+import Login from "../pages/Auth/Login.jsx";
+import Signup from "../pages/Auth/Signup.jsx";
+import Inicio from "../pages/Inicio/Inicio.jsx";
+import ListaProductos from "../pages/Productos/ListaProductos.jsx";
+import ProductoDetalle from "../pages/Productos/ProductoDetalle.jsx";
+import SobreNosotros from "../pages/SobreNosotros/SobreNosotros.jsx";
+import Contacto from "../pages/Contacto/Contacto.jsx";
+import Carrito from "../pages/Carrito/Carrito.jsx";
+import RutaProtegida from "../components/layouts/RutaProtegida.jsx";
 
 function AppRouter({ isAuthenticate, setIsAuthenticate }) {
   return (
