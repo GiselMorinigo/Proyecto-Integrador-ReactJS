@@ -1,48 +1,35 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import Nav from "react-bootstrap/Nav";
+import { NavLink } from "react-router-dom";
 
-const Nav = () => {
+const NavBar = () => {
   return (
-    <nav style={{ backgroundColor: "#333", color: "white", padding: "10px" }}>
-      <ul
-        style={{
-          listStyle: "none",
-          display: "flex",
-          justifyContent: "space-evenly",
-        }}
-      >
-        <li>
-          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-            Inicio
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/productos"
-            style={{ textDecoration: "none", color: "white" }}
-          >
-            Productos
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/sobre-nosotros"
-            style={{ textDecoration: "none", color: "white" }}
-          >
-            Sobre Nosotros
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/contacto"
-            style={{ textDecoration: "none", color: "white" }}
-          >
-            Contacto
-          </Link>
-        </li>
-      </ul>
-    </nav>
+    <Nav justify variant="tabs" defaultActiveKey="/">
+      <Nav.Item>
+        <Nav.Link as={NavLink} to="/">
+          Logo
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link as={NavLink} to="/productos">
+          Productos
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link as={NavLink} to="/sobre-nosotros">
+          Sobre Nosotros
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link as={NavLink} to="/contacto">
+          Contacto
+        </Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link as={NavLink} to="/carrito">
+          Carrito
+        </Nav.Link>
+      </Nav.Item>
+    </Nav>
   );
 };
-
-export default Nav;
+export default NavBar;
