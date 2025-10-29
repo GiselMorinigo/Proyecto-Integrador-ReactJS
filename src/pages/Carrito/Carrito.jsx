@@ -1,10 +1,10 @@
+import { useContext } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
+import { CarritoContext } from "../../components/context/CarritoContext";
 
-const Carrito = ({ carrito, setCarrito }) => {
-  const eliminarProducto = (prod) => {
-    setCarrito((prev) => prev.filter((p) => p.id !== prod.id));
-  };
+const Carrito = () => {
+  const { carrito, eliminarProducto } = useContext(CarritoContext);
 
   return (
     <div>
