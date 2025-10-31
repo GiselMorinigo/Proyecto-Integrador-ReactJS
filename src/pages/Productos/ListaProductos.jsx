@@ -1,19 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Card, Col, Row, Spinner } from "react-bootstrap";
-import { BsCartPlus } from "react-icons/bs";
-import Carrito from "../Carrito/Carrito";
-import { useNavigate } from "react-router-dom";
+import { Card, Col, Row, Spinner } from "react-bootstrap";
 import { CarritoContext } from "../../components/context/CarritoContext";
+import "../../assets/css/carrito.css";
 
 const ListaProductos = () => {
-  const { carrito, agregarProducto, vaciarCarrito } =
-    useContext(CarritoContext);
+  const { renderBotonCarrito, verDetalle } = useContext(CarritoContext);
 
   const [productos, setProductos] = useState([]);
-  // const [carrito, setCarrito] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
@@ -27,22 +22,6 @@ const ListaProductos = () => {
         setCargando(false);
       });
   }, []);
-
-  // const agregarProducto = (prod) => {
-  //   const existeProd = carrito.find((p) => p.id === prod.id);
-
-  //   if (existeProd) {
-  //     setCarrito(
-  //       carrito.map((p) => (p.id === prod.id ? { ...p, cant: p.cant + 1 } : p))
-  //     );
-  //   } else {
-  //     setCarrito([...carrito, { ...prod, cant: 1 }]);
-  //   }
-  // };
-
-  const verDetalle = (id) => {
-    navigate(`/productos/${id}`);
-  };
 
   return (
     <div style={{ padding: "20px" }}>
@@ -87,24 +66,12 @@ const ListaProductos = () => {
                       {prod.title}
                     </Card.Title>
                     <Card.Text>${prod.price}</Card.Text>
-                    <Button onClick={() => agregarProducto(prod)}>
-                      <BsCartPlus /> Agregar al carrito
-                    </Button>
+                    {renderBotonCarrito(prod)}
                   </Card.Body>
                 </Card>
               </Col>
             ))}
           </Row>
-        )}
-      </div>
-
-      <hr />
-
-      <div>
-        <Carrito />
-
-        {carrito.length > 0 && (
-          <Button onClick={() => vaciarCarrito()}>Vaciar carrito</Button>
         )}
       </div>
     </div>

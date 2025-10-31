@@ -4,7 +4,8 @@ import { BsTrash } from "react-icons/bs";
 import { CarritoContext } from "../../components/context/CarritoContext";
 
 const Carrito = () => {
-  const { carrito, eliminarProducto } = useContext(CarritoContext);
+  const { carrito, eliminarProducto, renderBotonCarrito } =
+    useContext(CarritoContext);
 
   return (
     <div>
@@ -29,8 +30,9 @@ const Carrito = () => {
                 style={{ maxWidth: "5%", marginRight: "10px" }}
               />
               <span>
-                {prod.title} - ${prod.price} - Cantidad: {prod.cant}
+                {prod.title} - ${prod.price}
               </span>
+              {renderBotonCarrito(prod)}
               <OverlayTrigger
                 overlay={<Tooltip>Eliminar</Tooltip>}
                 placement="top"
