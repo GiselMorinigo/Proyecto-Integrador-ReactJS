@@ -2,6 +2,27 @@
   box-sizing: border-box;
 }
 
+.header {
+  background-color: #4caf50;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  width: 90%;
+  text-align: center;
+}
+
+.header-admin {
+  margin-right: 10px;
+  text-decoration: none;
+  color: white;
+}
+
 .navbar {
   padding: 10px 0;
   display: flex;

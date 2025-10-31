@@ -2,10 +2,13 @@ import Nav from "../Nav";
 import Footer from "../Footer";
 import { Navigate, Outlet } from "react-router-dom";
 import Header from "../Header";
+import { useAuthContext } from "../context/AuthContext";
 
-const RutaProtegida = ({ isAuthenticate }) => {
-  if (!isAuthenticate) {
-    return <Navigate to="/login" replace />;
+const RutaProtegida = () => {
+  const { user } = useAuthContext();
+
+  if (!user) {
+    return <Navigate to="/login" />;
   }
   return (
     <>
