@@ -25,12 +25,17 @@ const Carrito = () => {
               }}
             >
               <img
-                src={prod.image}
+                src={prod.imagen}
                 alt="imagen-producto"
                 style={{ maxWidth: "5%", marginRight: "10px" }}
               />
               <span>
-                {prod.title} - ${prod.price}
+                {prod.nombre} -{" "}
+                {new Intl.NumberFormat("es-AR", {
+                  style: "currency",
+                  currency: "ARS",
+                  minimumFractionDigits: 0,
+                }).format(prod.precio)}
               </span>
               {renderBotonCarrito(prod)}
               <OverlayTrigger
