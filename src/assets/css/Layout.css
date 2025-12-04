@@ -4,6 +4,17 @@ body,
   height: 100%;
 }
 
+body {
+  font-family: "Nunito Sans", sans-serif;
+}
+
+.logo-title {
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+  font-size: 1.8rem;
+  font-style: italic;
+}
+
 .layout {
   display: flex;
   flex-direction: column;

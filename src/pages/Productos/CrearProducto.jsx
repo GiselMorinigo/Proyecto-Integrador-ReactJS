@@ -8,6 +8,20 @@ import {
   Col,
   Image,
 } from "react-bootstrap";
+import "../../assets/css/Productos.css";
+
+const normalizarCategoria = (str) =>
+  (str || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/ñ/g, "n");
+
+const CATEGORIES = [
+  { value: "mujer", label: "Mujer" },
+  { value: "hombre", label: "Hombre" },
+  { value: "ninos", label: "Niño/a" },
+];
 
 const INITIAL_VALUES = {
   nombre: "",
@@ -15,6 +29,7 @@ const INITIAL_VALUES = {
   precio: "",
   descripcion: "",
   imagenUrl: "",
+  categoria: "",
 };
 
 const CrearProducto = ({
@@ -27,7 +42,11 @@ const CrearProducto = ({
 
   useEffect(() => {
     if (modo === "edit" && initialValues) {
-      setFormValues(initialValues);
+      setFormValues({
+        ...INITIAL_VALUES,
+        ...initialValues,
+        categoria: normalizarCategoria(initialValues.categoria),
+      });
     } else {
       setFormValues(INITIAL_VALUES);
     }
@@ -73,6 +92,7 @@ const CrearProducto = ({
       precio: priceNumber,
       descripcion: formValues.descripcion.trim(),
       imagenUrl: formValues.imagenUrl.trim(),
+      categoria: normalizarCategoria(formValues.categoria) || "mujer",
     };
 
     await onAgregar?.(nuevoProducto);
@@ -89,14 +109,19 @@ const CrearProducto = ({
     <Container className="py-4">
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={6}>
-          <Card className="shadow-sm border-0">
-            <Card.Body className="p-4">
+          <Card className="card-elegante">
+            <Card.Body className="p-5">
               <Card.Title className="mb-3">
                 {" "}
                 {modo === "edit" ? "Editar producto" : "Crear producto"}{" "}
               </Card.Title>
 
-              <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <Form
+                noValidate
+                validated={validated}
+                onSubmit={handleSubmit}
+                className="form-elegante"
+              >
                 {/* Nombre */}
                 <Form.Group className="mb-3" controlId="productName">
                   <Form.Label>Nombre</Form.Label>
@@ -104,7 +129,7 @@ const CrearProducto = ({
                     required
                     type="text"
                     name="nombre"
-                    placeholder="Ej: Taza decorativa"
+                    placeholder="Ej: Camiseta de fútbol"
                     value={formValues.nombre}
                     onChange={handleChange}
                   />
@@ -115,7 +140,7 @@ const CrearProducto = ({
 
                 {/* Subtitulo */}
                 <Form.Group className="mb-3" controlId="productSubtitle">
-                  <Form.Label>Subtitulo</Form.Label>
+                  <Form.Label>Subtítulo</Form.Label>
                   <Form.Control
                     required
                     type="text"
@@ -124,6 +149,9 @@ const CrearProducto = ({
                     value={formValues.subtitulo}
                     onChange={handleChange}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    El subtítulo es obligatorio.
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Precio */}
@@ -152,7 +180,7 @@ const CrearProducto = ({
                     required
                     type="text"
                     name="imagenUrl"
-                    placeholder="Ej: https://mis-imagenes.com/taza.png"
+                    placeholder="Ej: https://mis-imagenes.com/camiseta.png"
                     value={formValues.imagenUrl}
                     onChange={handleChange}
                     isInvalid={validated && !isImageUrlValid()}
@@ -164,7 +192,7 @@ const CrearProducto = ({
 
                 {/* Previsualización */}
                 {showPreview && (
-                  <div className="text-center mb-3">
+                  <div className="text-center mb-3 preview-container">
                     <Image
                       src={formValues.imagenUrl}
                       alt="Previsualización del producto"
@@ -186,7 +214,7 @@ const CrearProducto = ({
                     rows={3}
                     name="descripcion"
                     required
-                    placeholder="Ej: Taza de cerámica de 300ml"
+                    placeholder="Ej: Camiseta de algodón 100%..."
                     value={formValues.descripcion}
                     onChange={handleChange}
                   />
@@ -195,8 +223,36 @@ const CrearProducto = ({
                   </Form.Control.Feedback>
                 </Form.Group>
 
+                {/* Categoría */}
+                <Form.Group className="mb-3" controlId="productCategory">
+                  <Form.Label>Categoría</Form.Label>
+                  <Form.Select
+                    name="categoria"
+                    required
+                    value={formValues.categoria}
+                    onChange={handleChange}
+                    aria-label="Seleccionar categoría"
+                  >
+                    <option value="" disabled>
+                      Seleccioná una categoría
+                    </option>
+                    {CATEGORIES.map((c) => (
+                      <option key={c.value} value={c.value}>
+                        {c.label}
+                      </option>
+                    ))}
+                  </Form.Select>
+                  <Form.Control.Feedback type="invalid">
+                    La categoría es obligatoria.
+                  </Form.Control.Feedback>
+                </Form.Group>
+
                 <div className="d-flex justify-content-end">
-                  <Button type="submit" variant="primary">
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    className="btn-elegante"
+                  >
                     {modo === "edit" ? "Guardar cambios" : "Agregar producto"}
                   </Button>
                 </div>

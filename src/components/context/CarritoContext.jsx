@@ -1,7 +1,14 @@
 import { createContext, useState } from "react";
-import { Button } from "react-bootstrap";
-import { BsCartPlus, BsDashSquareFill, BsPlusSquareFill } from "react-icons/bs";
+import { Button, Form, InputGroup } from "react-bootstrap";
+import {
+  BsCartPlus,
+  BsDash,
+  BsDashSquareFill,
+  BsPlus,
+  BsPlusSquareFill,
+} from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import "../../assets/css/Carrito.css";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const CarritoContext = createContext();
@@ -43,7 +50,7 @@ const CarritoProvider = ({ children }) => {
   };
 
   const verDetalle = (id) => {
-    navigate(`/productos/${id}`);
+    navigate(`/producto/${id}`);
   };
 
   const renderBotonCarrito = (prod) => {
@@ -51,9 +58,9 @@ const CarritoProvider = ({ children }) => {
 
     if (productoEnCarrito) {
       return (
-        <div className="stepper">
-          <BsDashSquareFill
-            className="stepper-btn"
+        <InputGroup size="sm" className="qty-stepper compact-stepper">
+          <Button
+            variant="outline-secondary"
             onClick={() => {
               if (productoEnCarrito.cant > 1) {
                 agregarProducto({ ...prod, cant: -1 });
@@ -61,20 +68,28 @@ const CarritoProvider = ({ children }) => {
                 eliminarProducto(prod);
               }
             }}
+          >
+            <BsDash />
+          </Button>
+
+          <Form.Control
+            value={productoEnCarrito.cant}
+            readOnly
+            className="text-center"
           />
 
-          <span className="stepper-value">{productoEnCarrito.cant}</span>
-
-          <BsPlusSquareFill
-            className="stepper-btn"
+          <Button
+            variant="outline-secondary"
             onClick={() => agregarProducto(prod)}
-          />
-        </div>
+          >
+            <BsPlus />
+          </Button>
+        </InputGroup>
       );
     }
 
     return (
-      <Button onClick={() => agregarProducto(prod)}>
+      <Button onClick={() => agregarProducto(prod)} className="w-100">
         <BsCartPlus /> Agregar al Carrito
       </Button>
     );

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import { Navbar, Nav, Container, Badge, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, Container, Badge, Form, Button } from "react-bootstrap";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { BsBag, BsPersonCircle } from "react-icons/bs";
+import { BsBag } from "react-icons/bs";
 import { CarritoContext } from "./context/CarritoContext";
 import { useAuthContext } from "./context/AuthContext";
 
@@ -9,8 +9,18 @@ const NavBar = () => {
   const { cantProductos } = useContext(CarritoContext);
   const { user, logout } = useAuthContext();
   const [expanded, setExpanded] = useState(false);
-  const close = () => setExpanded(false);
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
+
+  const close = () => setExpanded(false);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const q = query.trim();
+    if (!q) return;
+    navigate(`/productos?busqueda=${encodeURIComponent(q)}`);
+    close();
+  };
 
   return (
     <Navbar
@@ -21,23 +31,26 @@ const NavBar = () => {
       expanded={expanded}
     >
       <Container>
-        <Navbar.Brand as={Link} to="/" onClick={close}>
-          Logo
+        <Navbar.Brand as={Link} to="/" className="logo-title" onClick={close}>
+          Gié
         </Navbar.Brand>
+
         <Navbar.Toggle
           aria-controls="main-navbar"
           onClick={() => setExpanded((v) => !v)}
         />
+
         <Navbar.Collapse id="main-navbar">
+          {/* Links izquierdos */}
           <Nav className="me-auto">
-            <Nav.Link as={NavLink} to="/productos" onClick={close}>
-              Productos
+            <Nav.Link as={NavLink} to="/productos/mujer" onClick={close}>
+              Mujer
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/sobre-nosotros" onClick={close}>
-              Sobre Nosotros
+            <Nav.Link as={NavLink} to="/productos/hombre" onClick={close}>
+              Hombre
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/contacto" onClick={close}>
-              Contacto
+            <Nav.Link as={NavLink} to="/productos/ninos" onClick={close}>
+              Niño/a
             </Nav.Link>
 
             {user && (
@@ -47,39 +60,25 @@ const NavBar = () => {
             )}
           </Nav>
 
+          {/* Derecha: buscador + carrito + auth */}
           <Nav className="ms-auto d-flex align-items-center gap-3">
-            <NavDropdown
-              align="end"
-              title={<BsPersonCircle size={20} className="align-middle" />}
-              id="dropdown-usuario"
-            >
-              {!user ? (
-                <>
-                  <NavDropdown.Item onClick={() => navigate("/login")}>
-                    Iniciar sesión
-                  </NavDropdown.Item>
-                  <NavDropdown.Item onClick={() => navigate("/signup")}>
-                    Registrarse
-                  </NavDropdown.Item>
-                </>
-              ) : (
-                <>
-                  <NavDropdown.Item onClick={() => navigate("/perfil")}>
-                    Perfil
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item
-                    onClick={() => {
-                      logout();
-                      navigate("/");
-                    }}
-                  >
-                    Cerrar sesión
-                  </NavDropdown.Item>
-                </>
-              )}
-            </NavDropdown>
+            {/* Buscador */}
+            <Form className="d-flex" onSubmit={handleSearch}>
+              <Form.Control
+                type="search"
+                placeholder="Buscar"
+                size="sm"
+                className="me-2"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                aria-label="Buscar productos"
+              />
+              <Button variant="outline-secondary" size="sm" type="submit">
+                Buscar
+              </Button>
+            </Form>
 
+            {/* Carrito */}
             <Nav.Link
               as={NavLink}
               to="/carrito"
@@ -95,10 +94,33 @@ const NavBar = () => {
                 )}
               </span>
             </Nav.Link>
+
+            {/* Auth: solo texto */}
+            {!user ? (
+              <Nav.Link
+                onClick={() => {
+                  navigate("/login");
+                  close();
+                }}
+              >
+                Iniciar sesión
+              </Nav.Link>
+            ) : (
+              <Nav.Link
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                  close();
+                }}
+              >
+                Cerrar sesión
+              </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 };
+
 export default NavBar;

@@ -26,6 +26,7 @@ const Admin = () => {
         precio: Number(nuevoProducto.precio),
         descripcion: nuevoProducto.descripcion.trim(),
         imagen: nuevoProducto.imagenUrl.trim(),
+        categoria: nuevoProducto.categoria || "mujer",
       };
 
       const response = await fetch(API_URL, {
@@ -55,6 +56,7 @@ const Admin = () => {
         precio: Number(productoEditado.precio),
         descripcion: productoEditado.descripcion.trim(),
         imagen: productoEditado.imagenUrl.trim(),
+        categoria: productoEditado.categoria,
       };
 
       const res = await fetch(`${API_URL}/${productEdit.id}`, {
@@ -82,6 +84,7 @@ const Admin = () => {
       precio: String(productEdit.precio ?? ""),
       descripcion: productEdit.descripcion ?? "",
       imagenUrl: productEdit.imagen ?? "",
+      categoria: productEdit.categoria ?? "",
     };
   }, [productEdit]);
 

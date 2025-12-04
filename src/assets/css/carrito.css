@@ -1,41 +1,69 @@
-.stepper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 6px;
-  border: 1px solid #ced4da;
+/* Stepper general */
+.compact-stepper {
+  width: 50%; /* 🔹 más angosto (antes 100%) */
+  margin: 0 auto; /* centrado */
+  border-radius: 8px;
   overflow: hidden;
-  width: 110px;
-  height: 38px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-.stepper-btn {
-  flex: 1;
-  color: #0b5ed7;
-  font-size: 26px;
-  cursor: pointer;
+/* Tamaño reducido */
+.compact-stepper .btn,
+.compact-stepper .form-control {
+  height: 32px; /* 🔹 más chico */
+  font-size: 0.85rem; /* texto más fino */
+  padding: 4px 8px;
+}
+
+/* Botones más equilibrados */
+.compact-stepper .btn {
+  min-width: 34px;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: #0d6efd;
+  color: white;
 }
 
-.stepper-btn:first-child {
-  border-right: 1px solid rgba(255, 255, 255, 0.4);
+/* Suavizado visual */
+.compact-stepper {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.stepper-btn:last-child {
-  border-left: 1px solid rgba(255, 255, 255, 0.4);
+/* Alineación dentro de la Card */
+.card .compact-stepper {
+  margin-top: 8px;
 }
-*/ .stepper-value {
-  background-color: white;
-  color: #0d6efd;
-  width: 40px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  height: 100%;
-  line-height: 38px;
-  user-select: none;
+
+.size-chip {
+  min-width: 64px;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid #d0d7de; /* más contraste */
+  border-radius: 10px;
+  background-color: #fff; /* texto sobre blanco */
+  color: var(--bs-body-color); /* asegura texto visible */
+  font-size: 0.95rem; /* que se lea siempre */
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  line-height: 1; /* centra mejor */
+}
+
+.size-chip:hover {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 2px rgba(var(--bs-primary-rgb), 0.15);
+}
+
+.size-chip.active {
+  border-color: var(--bs-primary);
+  background-color: rgba(var(--bs-primary-rgb), 0.06);
+  color: var(--bs-primary-text-emphasis, #0d6efd);
+}
+
+.size-chip:focus-visible {
+  outline: 2px solid rgba(var(--bs-primary-rgb), 0.35);
+  outline-offset: 2px;
 }
