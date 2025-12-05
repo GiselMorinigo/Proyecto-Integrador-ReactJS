@@ -1,12 +1,6 @@
 import { createContext, useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
-import {
-  BsCartPlus,
-  BsDash,
-  BsDashSquareFill,
-  BsPlus,
-  BsPlusSquareFill,
-} from "react-icons/bs";
+import { BsDash, BsPlus } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import "../../assets/css/Carrito.css";
 
@@ -89,8 +83,8 @@ const CarritoProvider = ({ children }) => {
     }
 
     return (
-      <Button onClick={() => agregarProducto(prod)} className="w-100">
-        <BsCartPlus /> Agregar al Carrito
+      <Button onClick={() => agregarProducto(prod)} className="button w-100">
+        Agregar al Carrito
       </Button>
     );
   };

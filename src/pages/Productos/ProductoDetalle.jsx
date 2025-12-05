@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { CarritoContext } from "../../components/context/CarritoContext";
+import { Helmet } from "react-helmet-async";
 
 const API = "https://68d41a53214be68f8c68683d.mockapi.io/api/productos";
 
@@ -80,88 +81,98 @@ const ProductoDetalle = () => {
     return <p className="text-danger">{error ?? "Producto no disponible."}</p>;
 
   return (
-    <Container className="py-4">
-      <Row className="g-4">
-        <Col xs={12} md={7}>
-          <div className="p-3 bg-white border rounded-3 d-flex align-items-center justify-content-center">
-            <Image
-              src={detalleProducto.imagen}
-              alt={detalleProducto.nombre}
-              fluid
-              style={{ maxHeight: 520, objectFit: "contain" }}
-            />
-          </div>
-        </Col>
+    <>
+      <Helmet>
+        <title>Gié | {detalleProducto.nombre}</title>
+        <meta
+          name="description"
+          content={`Detalle del producto ${detalleProducto.nombre} en Gié`}
+        />
+      </Helmet>
 
-        <Col xs={12} md={5}>
-          {detalleProducto.categoria && (
-            <Badge bg="light" text="dark" className="mb-2 border">
-              {formatCategoria(detalleProducto.categoria)}
-            </Badge>
-          )}
-          <h2 className="mb-2"> {detalleProducto.nombre} </h2>
-          {detalleProducto.subtitulo && (
-            <p className="text-muted mb-3">{detalleProducto.subtitulo}</p>
-          )}
-          <h4 className="mb-3">{formatearARS(detalleProducto.precio)}</h4>
-
-          <div className="mb-4">
-            <p className="fw-semibold mb-2">Seleccionar Talle</p>
-            <div className="d-flex flex-wrap gap-2">
-              {SIZES.map((size) => {
-                const active = selectedSize === size;
-                return (
-                  <Button
-                    key={size}
-                    type="button"
-                    className={`size-chip ${active ? "active" : ""}`}
-                    onClick={() => {
-                      setSelectedSize(size);
-                      setSizeError(false);
-                    }}
-                    aria-pressed={selectedSize === size}
-                  >
-                    {size}
-                  </Button>
-                );
-              })}
+      <Container className="py-4">
+        <Row className="g-4">
+          <Col xs={12} md={7}>
+            <div className="p-3 bg-white border rounded-3 d-flex align-items-center justify-content-center">
+              <Image
+                src={detalleProducto.imagen}
+                alt={detalleProducto.nombre}
+                fluid
+                style={{ maxHeight: 520, objectFit: "contain" }}
+              />
             </div>
-            {sizeError && (
-              <p className="text-danger mt-2">
-                Elija un talle antes de continuar.
-              </p>
+          </Col>
+
+          <Col xs={12} md={5}>
+            {detalleProducto.categoria && (
+              <Badge bg="light" text="dark" className="mb-2 border">
+                {formatCategoria(detalleProducto.categoria)}
+              </Badge>
             )}
-          </div>
+            <h2 className="mb-2"> {detalleProducto.nombre} </h2>
+            {detalleProducto.subtitulo && (
+              <p className="text-muted mb-3">{detalleProducto.subtitulo}</p>
+            )}
+            <h4 className="mb-3">{formatearARS(detalleProducto.precio)}</h4>
 
-          <div className="mb-4">
-            <p className="mb-1 fw-semibold">Descripción</p>
-            <p className="text-secondary mb-0" style={{ lineHeight: 1.6 }}>
-              {detalleProducto.descripcion}
-            </p>
-          </div>
+            <div className="mb-4">
+              <p className="fw-semibold mb-2">Seleccionar Talle</p>
+              <div className="d-flex flex-wrap gap-2">
+                {SIZES.map((size) => {
+                  const active = selectedSize === size;
+                  return (
+                    <Button
+                      key={size}
+                      type="button"
+                      className={`size-chip ${active ? "active" : ""}`}
+                      onClick={() => {
+                        setSelectedSize(size);
+                        setSizeError(false);
+                      }}
+                      aria-pressed={selectedSize === size}
+                    >
+                      {size}
+                    </Button>
+                  );
+                })}
+              </div>
+              {sizeError && (
+                <p className="text-danger mt-2">
+                  Elija un talle antes de continuar.
+                </p>
+              )}
+            </div>
 
-          <div className="d-grid">
-            <Button size="lg" onClick={AgregarCarrito}>
-              Agregar al carrito
-            </Button>
-          </div>
+            <div className="mb-4">
+              <p className="mb-1 fw-semibold">Descripción</p>
+              <p className="text-secondary mb-0" style={{ lineHeight: 1.6 }}>
+                {detalleProducto?.descripcion}
+              </p>
+            </div>
 
-          <Accordion flush className="mt-3">
-            <Accordion.Item eventKey="metodos">
-              <Accordion.Header>Métodos de pago</Accordion.Header>
-              <Accordion.Body>
-                Aceptamos las siguientes opciones de pago:
-                <ul className="mt-2 mb-0">
-                  <li>Tarjetas de Crédito</li>
-                  <li>Tarjetas de Débito</li>
-                  <li>Mercado Pago</li>
-                </ul>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-        </Col>
-      </Row>
-    </Container>
+            <div className="d-grid">
+              <Button className="button" size="lg" onClick={AgregarCarrito}>
+                Agregar al carrito
+              </Button>
+            </div>
+
+            <Accordion flush className="mt-3">
+              <Accordion.Item eventKey="metodos">
+                <Accordion.Header>Métodos de pago</Accordion.Header>
+                <Accordion.Body>
+                  Aceptamos las siguientes opciones de pago:
+                  <ul className="mt-2 mb-0">
+                    <li>Tarjetas de Crédito</li>
+                    <li>Tarjetas de Débito</li>
+                    <li>Mercado Pago</li>
+                  </ul>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

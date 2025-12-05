@@ -3,7 +3,8 @@ import "../assets/css/Layout.css";
 const Footer = () => {
   return (
     <footer className="footer">
-      <p>&copy; 2025 - Mi Aplicación React</p>
+      <p>&copy; Copyright 2025 Gié - Tienda de ropa y accesorios ARG.</p>
+      <p>Todos los derechos reservados</p>
     </footer>
   );
 };

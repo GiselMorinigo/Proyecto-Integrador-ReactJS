@@ -2,6 +2,7 @@ import { Alert, Container } from "react-bootstrap";
 import CrearProducto from "../Productos/CrearProducto";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const API_URL = "https://68d41a53214be68f8c68683d.mockapi.io/api/productos";
 
@@ -89,30 +90,45 @@ const Admin = () => {
   }, [productEdit]);
 
   return (
-    <Container className="py-4">
-      <h2 className="mb-4">
-        Panel de Administración -{" "}
-        {modo === "edit" ? "Editar Producto" : "Crear Producto"}
-      </h2>
+    <>
+      <Helmet>
+        <title>
+          Admin | {modo === "edit" ? "Editar Producto" : "Crear Producto"}
+        </title>
+        <meta
+          name="description"
+          content={
+            modo === "edit"
+              ? "Editar un producto existente"
+              : "Crear un nuevo producto"
+          }
+        />
+      </Helmet>
+      <Container className="py-4">
+        <h2 className="mb-4">
+          Panel de Administración -{" "}
+          {modo === "edit" ? "Editar Producto" : "Crear Producto"}
+        </h2>
 
-      {message && (
-        <Alert variant="success" onClose={() => setMessage(null)} dismissible>
-          {message}
-        </Alert>
-      )}
+        {message && (
+          <Alert variant="success" onClose={() => setMessage(null)} dismissible>
+            {message}
+          </Alert>
+        )}
 
-      {error && (
-        <Alert variant="danger" dismissible onClose={() => setError(null)}>
-          {error}
-        </Alert>
-      )}
+        {error && (
+          <Alert variant="danger" dismissible onClose={() => setError(null)}>
+            {error}
+          </Alert>
+        )}
 
-      <CrearProducto
-        modo={modo}
-        initialValues={initialValues}
-        onAgregar={modo === "edit" ? editarProducto : crearProducto}
-      />
-    </Container>
+        <CrearProducto
+          modo={modo}
+          initialValues={initialValues}
+          onAgregar={modo === "edit" ? editarProducto : crearProducto}
+        />
+      </Container>
+    </>
   );
 };
 export default Admin;

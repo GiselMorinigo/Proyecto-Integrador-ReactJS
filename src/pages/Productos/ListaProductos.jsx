@@ -6,6 +6,7 @@ import { useAuthContext } from "../../components/context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import ModalEliminarProducto from "./components/modalEliminarProd";
+import { Helmet } from "react-helmet-async";
 
 const ListaProductos = () => {
   const { renderBotonCarrito, verDetalle } = useContext(CarritoContext);
@@ -28,7 +29,6 @@ const ListaProductos = () => {
         setCargando(true);
         setError(null);
 
-        // Construí la URL SIN errores de concatenación
         const url = new URL(
           "https://68d41a53214be68f8c68683d.mockapi.io/api/productos"
         );
@@ -42,21 +42,18 @@ const ListaProductos = () => {
         }
 
         const res = await fetch(url.toString());
-        console.log(url.toString());
 
         if (!res.ok) {
-          // si la ruta está mal o MockAPI devuelve 404, salimos por catch
           throw new Error(`HTTP ${res.status}`);
         }
 
         const data = await res.json();
 
-        // aseguramos SIEMPRE un array
         setProductos(Array.isArray(data) ? data : []);
       } catch (e) {
         console.error("fetchProductos:", e);
         setError("Error al cargar productos");
-        setProductos([]); // evita map sobre algo que no sea array
+        setProductos([]);
       } finally {
         setCargando(false);
       }
@@ -99,46 +96,56 @@ const ListaProductos = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      {cargando ? (
-        <div className="d-flex justify-content-center align-items-center py-5">
-          <Spinner animation="border" />{" "}
-          <span className="ms-2">Cargando productos...</span>
-        </div>
-      ) : error ? (
-        <p className="text-danger"> {error} </p>
-      ) : !Array.isArray(productos) || productos.length === 0 ? (
-        <div className="text-center mt-5">
-          <h5>
-            {categoria
-              ? `No hay productos disponibles para la categoría "${categoria}".`
-              : "No hay productos disponibles."}
-          </h5>
-        </div>
-      ) : (
-        <Row xs={1} sm={2} md={4} lg={4} className="g-4">
-          {productos.map((prod) => (
-            <Col key={prod.id}>
-              <ProductCard
-                prod={prod}
-                renderBotonCarrito={renderBotonCarrito}
-                verDetalle={verDetalle}
-                user={user}
-                onEdit={editProduct}
-                onDelete={openModalDelete}
-              />
-            </Col>
-          ))}
-        </Row>
-      )}
+    <>
+      <Helmet>
+        <title>Gié | {`Moda para ${categoria ? categoria : "todos"}`}</title>
+        <meta
+          name="description"
+          content="Página que muestra la lista de productos disponibles en Gié"
+        />
+      </Helmet>
 
-      <ModalEliminarProducto
-        show={showModal}
-        producto={prodSeleccionado}
-        onClose={closeModalDelete}
-        onConfirm={confirmDelete}
-      />
-    </div>
+      <div style={{ padding: "20px" }}>
+        {cargando ? (
+          <div className="d-flex justify-content-center align-items-center py-5">
+            <Spinner animation="border" />{" "}
+            <span className="ms-2">Cargando productos...</span>
+          </div>
+        ) : error ? (
+          <p className="text-danger"> {error} </p>
+        ) : !Array.isArray(productos) || productos.length === 0 ? (
+          <div className="text-center mt-5">
+            <h5>
+              {categoria
+                ? `No hay productos disponibles para la categoría "${categoria}".`
+                : "No hay productos disponibles."}
+            </h5>
+          </div>
+        ) : (
+          <Row xs={1} sm={2} md={4} lg={4} className="g-2">
+            {productos.map((prod) => (
+              <Col key={prod.id}>
+                <ProductCard
+                  prod={prod}
+                  renderBotonCarrito={renderBotonCarrito}
+                  verDetalle={verDetalle}
+                  user={user}
+                  onEdit={editProduct}
+                  onDelete={openModalDelete}
+                />
+              </Col>
+            ))}
+          </Row>
+        )}
+
+        <ModalEliminarProducto
+          show={showModal}
+          producto={prodSeleccionado}
+          onClose={closeModalDelete}
+          onConfirm={confirmDelete}
+        />
+      </div>
+    </>
   );
 };
 

@@ -109,7 +109,7 @@ const CrearProducto = ({
     <Container className="py-4">
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={6}>
-          <Card className="card-elegante">
+          <Card className="card-form">
             <Card.Body className="p-5">
               <Card.Title className="mb-3">
                 {" "}
@@ -120,16 +120,15 @@ const CrearProducto = ({
                 noValidate
                 validated={validated}
                 onSubmit={handleSubmit}
-                className="form-elegante"
+                className="form"
               >
-                {/* Nombre */}
                 <Form.Group className="mb-3" controlId="productName">
                   <Form.Label>Nombre</Form.Label>
                   <Form.Control
                     required
                     type="text"
                     name="nombre"
-                    placeholder="Ej: Camiseta de fútbol"
+                    placeholder="Ej: Dolce & Gabbana"
                     value={formValues.nombre}
                     onChange={handleChange}
                   />
@@ -138,14 +137,13 @@ const CrearProducto = ({
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                {/* Subtitulo */}
                 <Form.Group className="mb-3" controlId="productSubtitle">
                   <Form.Label>Subtítulo</Form.Label>
                   <Form.Control
                     required
                     type="text"
                     name="subtitulo"
-                    placeholder="Ingrese subtítulo"
+                    placeholder="Ej: Buzo con logo estampado"
                     value={formValues.subtitulo}
                     onChange={handleChange}
                   />
@@ -154,7 +152,6 @@ const CrearProducto = ({
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                {/* Precio */}
                 <Form.Group className="mb-3" controlId="productPrice">
                   <Form.Label>Precio</Form.Label>
                   <Form.Control
@@ -173,7 +170,6 @@ const CrearProducto = ({
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                {/* Imagen URL */}
                 <Form.Group className="mb-3" controlId="productImageUrl">
                   <Form.Label>URL de la imagen</Form.Label>
                   <Form.Control
@@ -190,7 +186,6 @@ const CrearProducto = ({
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                {/* Previsualización */}
                 {showPreview && (
                   <div className="text-center mb-3 preview-container">
                     <Image
@@ -206,7 +201,6 @@ const CrearProducto = ({
                   </div>
                 )}
 
-                {/* Descripción */}
                 <Form.Group className="mb-3" controlId="productDescription">
                   <Form.Label>Descripción</Form.Label>
                   <Form.Control
@@ -214,7 +208,7 @@ const CrearProducto = ({
                     rows={3}
                     name="descripcion"
                     required
-                    placeholder="Ej: Camiseta de algodón 100%..."
+                    placeholder="Ej: Buzo de algodón 100%..."
                     value={formValues.descripcion}
                     onChange={handleChange}
                   />
@@ -223,7 +217,6 @@ const CrearProducto = ({
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                {/* Categoría */}
                 <Form.Group className="mb-3" controlId="productCategory">
                   <Form.Label>Categoría</Form.Label>
                   <Form.Select
@@ -248,11 +241,7 @@ const CrearProducto = ({
                 </Form.Group>
 
                 <div className="d-flex justify-content-end">
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    className="btn-elegante"
-                  >
+                  <Button type="submit" variant="primary" className="button">
                     {modo === "edit" ? "Guardar cambios" : "Agregar producto"}
                   </Button>
                 </div>
