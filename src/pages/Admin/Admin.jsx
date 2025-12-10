@@ -1,18 +1,28 @@
 import { Alert, Container } from "react-bootstrap";
 import CrearProducto from "../Productos/CrearProducto";
 import { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useAuthContext } from "../../components/context/AuthContext";
 
 const API_URL = "https://68d41a53214be68f8c68683d.mockapi.io/api/productos";
 
 const Admin = () => {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+
   const { state } = useLocation();
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
 
   const modo = state?.mode === "edit" ? "edit" : "create";
   const productEdit = state?.product || null;
+
+  useEffect(() => {
+    if (!user || user.role !== "admin") {
+      navigate("/", { replace: true });
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     setError(null);

@@ -52,9 +52,15 @@ const CarritoProvider = ({ children }) => {
 
     if (productoEnCarrito) {
       return (
-        <InputGroup size="sm" className="qty-stepper compact-stepper">
-          <Button
-            variant="outline-secondary"
+        <div
+          className="stepper-compact"
+          role="group"
+          aria-label="Control de cantidad"
+        >
+          <button
+            type="button"
+            className="stepper-btn stepper-btn--left"
+            aria-label={`Disminuir cantidad de ${prod.nombre}`}
             onClick={() => {
               if (productoEnCarrito.cant > 1) {
                 agregarProducto({ ...prod, cant: -1 });
@@ -64,27 +70,32 @@ const CarritoProvider = ({ children }) => {
             }}
           >
             <BsDash />
-          </Button>
+          </button>
 
-          <Form.Control
-            value={productoEnCarrito.cant}
-            readOnly
-            className="text-center"
-          />
+          <span className="stepper-value" aria-live="polite">
+            {productoEnCarrito.cant}
+          </span>
 
-          <Button
-            variant="outline-secondary"
+          <button
+            type="button"
+            className="stepper-btn stepper-btn--right"
+            aria-label={`Aumentar cantidad de ${prod.nombre}`}
             onClick={() => agregarProducto(prod)}
           >
             <BsPlus />
-          </Button>
-        </InputGroup>
+          </button>
+        </div>
       );
     }
 
     return (
-      <Button onClick={() => agregarProducto(prod)} className="button w-100">
-        Agregar al Carrito
+      <Button
+        aria-label="Agregar producto"
+        onClick={() => agregarProducto(prod)}
+        className="button w-100"
+        variant="dark"
+      >
+        Agregar al carrito
       </Button>
     );
   };

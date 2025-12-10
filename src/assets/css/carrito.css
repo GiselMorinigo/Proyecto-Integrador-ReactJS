@@ -1,55 +1,102 @@
-/* Stepper general */
-.compact-stepper {
-  width: 50%; /* 🔹 más angosto (antes 100%) */
-  margin: 0 auto; /* centrado */
+.stepper-compact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  border: 1px solid #e6e6e6;
   border-radius: 8px;
   overflow: hidden;
+  height: 36px;
+  background: #ffffff;
+  min-width: 110px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
-/* Tamaño reducido */
-.compact-stepper .btn,
-.compact-stepper .form-control {
-  height: 32px; /* 🔹 más chico */
-  font-size: 0.85rem; /* texto más fino */
-  padding: 4px 8px;
-}
-
-/* Botones más equilibrados */
-.compact-stepper .btn {
-  min-width: 34px;
+.stepper-btn {
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: #0d6efd;
-  color: white;
+  justify-content: center;
+  width: 36px;
+  height: 100%;
+  border: none;
+  background: #f7f7f7;
+  color: #333;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-/* Suavizado visual */
-.compact-stepper {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+.stepper-btn:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.08);
+  outline-offset: 1px;
 }
 
-/* Alineación dentro de la Card */
-.card .compact-stepper {
-  margin-top: 8px;
+.stepper-btn:hover {
+  background: #efefef;
+}
+
+.stepper-value {
+  min-width: 40px;
+  text-align: center;
+  font-weight: 600;
+  color: #222;
+  font-size: 14px;
+  padding: 0 6px;
+}
+
+.stepper-btn--left,
+.stepper-btn--right {
+  background: #fafafa;
+}
+
+.stepper-btn--left:hover,
+.stepper-btn--right:hover {
+  background: #f0f0f0;
+}
+
+@media (max-width: 576px) {
+  .stepper-compact {
+    height: 32px;
+    min-width: 94px;
+  }
+  .stepper-btn {
+    width: 32px;
+    font-size: 14px;
+  }
+  .stepper-value {
+    min-width: 34px;
+    font-size: 13px;
+  }
+}
+
+.button.w-100 {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+
+.button.w-100:hover {
+  background: #000;
+  border-color: #000;
 }
 
 .size-chip {
   min-width: 64px;
   height: 44px;
   padding: 0 14px;
-  border: 1px solid #d0d7de; /* más contraste */
+  border: 1px solid #d0d7de;
   border-radius: 10px;
-  background-color: #fff; /* texto sobre blanco */
-  color: var(--bs-body-color); /* asegura texto visible */
-  font-size: 0.95rem; /* que se lea siempre */
+  background-color: #fff;
+  color: var(--bs-body-color);
+  font-size: 0.95rem;
   font-weight: 500;
   letter-spacing: 0.2px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
-  line-height: 1; /* centra mejor */
+  line-height: 1;
 }
 
 .size-chip:hover {

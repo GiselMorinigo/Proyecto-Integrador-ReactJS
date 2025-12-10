@@ -11,10 +11,18 @@ const ModalEliminarProducto = ({ show, producto, onClose, onConfirm }) => {
         ?
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>
+        <Button
+          aria-label="Cancelar eliminacion"
+          variant="secondary"
+          onClick={onClose}
+        >
           Cancelar
         </Button>
-        <Button variant="danger" onClick={onConfirm}>
+        <Button
+          aria-label="Eliminar producto"
+          variant="danger"
+          onClick={onConfirm}
+        >
           Eliminar
         </Button>
       </Modal.Footer>

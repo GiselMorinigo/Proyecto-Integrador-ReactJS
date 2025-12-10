@@ -17,10 +17,10 @@ const Login = () => {
   return (
     <>
       <Helmet>
-        <title>Gié | Iniciar Sesión</title>
+        <title>Gérmoni | Iniciar Sesión</title>
         <meta
           name="description"
-          content="Página para que los usuarios inicien sesión en Gié"
+          content="Página para que los usuarios inicien sesión en Gérmoni"
         />
       </Helmet>
       <Row className="min-vh-100 justify-content-center align-items-center">
@@ -64,6 +64,7 @@ const Login = () => {
 
                 <div className="w-100">
                   <Button
+                    aria-label="Iniciar sesion"
                     className="button w-100"
                     type="submit"
                     variant="primary"
@@ -77,10 +78,10 @@ const Login = () => {
                           role="status"
                           size="sm"
                         />{" "}
-                        Login
+                        Ingresar
                       </>
                     ) : (
-                      "Login"
+                      "Ingresar"
                     )}
                   </Button>
                 </div>

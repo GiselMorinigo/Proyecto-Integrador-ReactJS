@@ -83,10 +83,10 @@ const ProductoDetalle = () => {
   return (
     <>
       <Helmet>
-        <title>Gié | {detalleProducto.nombre}</title>
+        <title>Gérmoni | {detalleProducto.nombre}</title>
         <meta
           name="description"
-          content={`Detalle del producto ${detalleProducto.nombre} en Gié`}
+          content={`Detalle del producto ${detalleProducto.nombre} en Gérmoni`}
         />
       </Helmet>
 
@@ -151,7 +151,12 @@ const ProductoDetalle = () => {
             </div>
 
             <div className="d-grid">
-              <Button className="button" size="lg" onClick={AgregarCarrito}>
+              <Button
+                aria-label="Agregar producto"
+                className="button"
+                size="lg"
+                onClick={AgregarCarrito}
+              >
                 Agregar al carrito
               </Button>
             </div>

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { CarritoContext } from "../../components/context/CarritoContext";
 import ProductCard from "./components/ProductCard";
@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import ModalEliminarProducto from "./components/modalEliminarProd";
 import { Helmet } from "react-helmet-async";
 import { useSearchContext } from "../../components/context/SearchContext";
+import Paginacion from "./components/Paginacion";
 
 const API_URL = "https://68d41a53214be68f8c68683d.mockapi.io/api/productos";
 
@@ -33,6 +34,23 @@ const ListaProductos = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [prodSeleccionado, setProdSeleccionado] = useState(null);
+
+  const [paginaActual, setPaginaActual] = useState(1);
+  const pageSize = 12;
+
+  const contentRef = useRef(null);
+
+  const handlePageChange = (p) => {
+    setPaginaActual(p);
+    contentRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
+  useEffect(() => {
+    setPaginaActual(1);
+  }, [categoria, busqueda]);
 
   useEffect(() => {
     let active = true;
@@ -70,6 +88,7 @@ const ListaProductos = () => {
   }, [categoria]);
 
   const openModalDelete = (prod) => {
+    if (user?.role === "admin") return;
     setProdSeleccionado(prod);
     setShowModal(true);
   };
@@ -80,6 +99,11 @@ const ListaProductos = () => {
   };
 
   const confirmDelete = async () => {
+    if (user?.role !== "admin") {
+      toast.error("El usuario no está autorizado para realizar esta acción.");
+      return;
+    }
+
     if (!prodSeleccionado) return;
 
     try {
@@ -121,24 +145,37 @@ const ListaProductos = () => {
     });
   }, [busqueda, productos]);
 
+  const totalItems = productosFiltrados.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+
+  useEffect(() => {
+    if (paginaActual > totalPages) setPaginaActual(totalPages);
+    if (paginaActual < 1) setPaginaActual(1);
+  }, [paginaActual, totalPages]);
+
+  const startIndex = (paginaActual - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const productosPagina = productosFiltrados.slice(startIndex, endIndex);
+
   const isEmptyResults = !cargando && productosFiltrados.length === 0;
   const showError = !cargando && error;
 
   return (
     <>
       <Helmet>
-        <title>Gié | {`Moda para ${categoria ? categoria : "todos"}`}</title>
+        <title>
+          Gérmoni | {`Moda para ${categoria ? categoria : "todos"}`}
+        </title>
         <meta
           name="description"
-          content="Página que muestra la lista de productos disponibles en Gié"
+          content="Página que muestra la lista de productos disponibles en Gérmoni"
         />
       </Helmet>
 
-      <div style={{ padding: "20px" }}>
+      <div style={{ padding: "20px" }} ref={contentRef}>
         {cargando ? (
           <div className="d-flex justify-content-center align-items-center py-5">
             <Spinner animation="border" />{" "}
-            <span className="ms-2">Cargando productos</span>
           </div>
         ) : showError ? (
           <p className="text-danger">{error}</p>
@@ -153,20 +190,36 @@ const ListaProductos = () => {
             </h5>
           </div>
         ) : (
-          <Row xs={1} sm={2} md={4} lg={4} className="g-2">
-            {productosFiltrados.map((prod) => (
-              <Col key={prod.id}>
-                <ProductCard
-                  prod={prod}
-                  renderBotonCarrito={renderBotonCarrito}
-                  verDetalle={verDetalle}
-                  user={user}
-                  onEdit={editProduct}
-                  onDelete={openModalDelete}
-                />
-              </Col>
-            ))}
-          </Row>
+          <>
+            <Row xs={1} sm={2} md={4} lg={4} className="g-2">
+              {productosPagina.map((prod) => (
+                <Col key={prod.id}>
+                  <ProductCard
+                    prod={prod}
+                    renderBotonCarrito={renderBotonCarrito}
+                    verDetalle={verDetalle}
+                    user={user}
+                    onEdit={editProduct}
+                    onDelete={openModalDelete}
+                  />
+                </Col>
+              ))}
+            </Row>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "20px",
+              }}
+            >
+              <Paginacion
+                currentPage={paginaActual}
+                totalPage={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </>
         )}
 
         <ModalEliminarProducto

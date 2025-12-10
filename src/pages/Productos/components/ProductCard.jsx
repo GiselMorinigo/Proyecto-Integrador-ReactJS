@@ -41,10 +41,11 @@ const ProductCard = ({
         <div className="d-flex justify-content-between align-items-center mb-2">
           <Card.Text>{formatearARS(prod.precio)}</Card.Text>
 
-          {user && (
+          {user.role === "admin" && (
             <div className="d-flex justify-content-center mb-3">
               <ButtonGroup>
                 <Button
+                  aria-label="Editar producto"
                   size="sm"
                   variant="outline-secondary"
                   onClick={() => onEdit(prod)}
@@ -52,6 +53,7 @@ const ProductCard = ({
                   <BsPencilFill />
                 </Button>
                 <Button
+                  aria-label="Eliminar producto"
                   size="sm"
                   variant="outline-danger"
                   onClick={() => onDelete(prod)}
@@ -62,7 +64,9 @@ const ProductCard = ({
             </div>
           )}
         </div>
-        <div className="mt-auto">{renderBotonCarrito(prod)}</div>
+        <div className="mt-auto stepper-container">
+          {renderBotonCarrito(prod)}
+        </div>
       </Card.Body>
     </Card>
   );

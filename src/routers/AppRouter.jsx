@@ -8,20 +8,23 @@ import Admin from "../pages/Admin/Admin";
 import CrearProducto from "../pages/Productos/CrearProducto";
 import LayoutPublico from "../components/layouts/LayoutPublico";
 import RutaProtegida from "../components/layouts/RutaProtegida";
+import AdminRoute from "../components/layouts/AdminRoute";
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route element={<LayoutPublico />}>
         <Route path="/" element={<Inicio />} />
-        <Route path="/productos" element={<ListaProductos />} />
-        <Route path="/productos/:categoria" element={<ListaProductos />} />
-        <Route path="/producto/:id" element={<ProductoDetalle />} />
-        <Route path="/carrito" element={<Carrito />} />
-
         <Route path="/login" element={<Login />} />
 
         <Route element={<RutaProtegida />}>
+          <Route path="/productos" element={<ListaProductos />} />
+          <Route path="/productos/:categoria" element={<ListaProductos />} />
+          <Route path="/producto/:id" element={<ProductoDetalle />} />
+          <Route path="/carrito" element={<Carrito />} />
+        </Route>
+
+        <Route element={<AdminRoute />}>
           <Route path="/admin" element={<Admin />} />
           <Route
             path="/crear-producto"

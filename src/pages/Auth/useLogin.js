@@ -28,32 +28,28 @@ const useLogin = () => {
   };
 
   const handleSubmit = (e) => {
-    if (e && typeof e.preventDefault === "function") {
-      e.preventDefault();
-    }
-
-    const ok = validarCampos();
-    if (!ok) return;
+    if (e && typeof e.preventDefault === "function") e.preventDefault();
+    if (!validarCampos()) return;
 
     setLoading(true);
 
     try {
-      if (user.trim() === "admin" && password === "admin") {
-        login(user.trim());
+      const name = user.trim();
+      if (name === "admin" && password === "admin") {
+        login(name, "admin");
         navigate("/");
         setErrors({ user: null, password: null });
       } else {
-        setErrors((prev) => ({
-          ...prev,
-          password: "Credenciales inválidas",
-        }));
+        login(name || "Usuario", "user");
+        navigate("/");
+        setErrors({ user: null, password: null });
       }
     } catch (error) {
+      console.error(error);
       setErrors((prev) => ({
         ...prev,
         password: "Error al iniciar sesión. Inténtelo de nuevo.",
       }));
-      console.error("Error en el login:", error);
     } finally {
       setLoading(false);
     }

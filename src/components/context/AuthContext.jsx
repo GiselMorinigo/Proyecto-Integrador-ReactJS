@@ -1,18 +1,31 @@
-import { createContext, useContext, useState } from "react";
+/* eslint-disable no-empty */
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const raw = localStorage.getItem("gie_user");
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  });
 
-  const login = (username) => {
-    const token = `fake-token-${username}`;
-    localStorage.setItem("authToken", token);
-    setUser(username);
+  useEffect(() => {
+    try {
+      if (user) localStorage.setItem("gie_user", JSON.stringify(user));
+      else localStorage.removeItem("gie_user");
+    } catch {}
+  }, [user]);
+
+  const login = (name, role = "user") => {
+    const next = { name, role };
+    setUser(next);
   };
 
   const logout = () => {
-    localStorage.removeItem("authToken");
     setUser(null);
   };
 
