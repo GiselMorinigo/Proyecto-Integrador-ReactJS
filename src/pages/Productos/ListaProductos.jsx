@@ -88,7 +88,6 @@ const ListaProductos = () => {
   }, [categoria]);
 
   const openModalDelete = (prod) => {
-    if (user?.role === "admin") return;
     setProdSeleccionado(prod);
     setShowModal(true);
   };
@@ -99,11 +98,6 @@ const ListaProductos = () => {
   };
 
   const confirmDelete = async () => {
-    if (user?.role !== "admin") {
-      toast.error("El usuario no está autorizado para realizar esta acción.");
-      return;
-    }
-
     if (!prodSeleccionado) return;
 
     try {

@@ -2,6 +2,7 @@ import { Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import useLogin from "./useLogin";
 import { Helmet } from "react-helmet-async";
 import "../../assets/css/Login.css";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 const Login = () => {
   const {
@@ -84,6 +85,19 @@ const Login = () => {
                       "Ingresar"
                     )}
                   </Button>
+                </div>
+
+                <div className="text-center mt-3">
+                  <small
+                    className="text-muted d-flex align-items-center justify-content-center"
+                    style={{ fontStyle: "italic", gap: "6px" }}
+                  >
+                    <span>
+                      <AiOutlineInfoCircle size={16} />{" "}
+                      <strong>Invitado:</strong> cualquier usuario y contraseña.{" "}
+                      <strong>Administrador:</strong> admin / admin.
+                    </span>
+                  </small>
                 </div>
               </Form>
             </Card.Body>

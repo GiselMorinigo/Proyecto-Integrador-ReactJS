@@ -43,9 +43,23 @@
   background-color: #000;
   border: none;
   color: #fff;
-  padding: 10px 18px;
+  padding: 8px 15px;
   border-radius: 10px;
   transition: all 0.3s ease;
+}
+
+.cancel-button {
+  color: #000;
+  padding: 8px 15px;
+  margin-right: 5px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #dadada;
+  transform: translateY(-1px);
+  color: #000;
 }
 
 .button:hover {

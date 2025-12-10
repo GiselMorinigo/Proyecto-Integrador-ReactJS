@@ -9,6 +9,7 @@ import {
   Image,
 } from "react-bootstrap";
 import "../../assets/css/Productos.css";
+import { useNavigate } from "react-router-dom";
 
 const normalizarCategoria = (str) =>
   (str || "")
@@ -39,6 +40,8 @@ const CrearProducto = ({
 }) => {
   const [formValues, setFormValues] = useState(INITIAL_VALUES);
   const [validated, setValidated] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (modo === "edit" && initialValues) {
@@ -96,6 +99,7 @@ const CrearProducto = ({
     };
 
     await onAgregar?.(nuevoProducto);
+    navigate(`/productos/${nuevoProducto.categoria}`);
 
     if (modo === "create") {
       setFormValues(INITIAL_VALUES);
@@ -241,7 +245,20 @@ const CrearProducto = ({
                 </Form.Group>
 
                 <div className="d-flex justify-content-end">
-                  <Button type="submit" variant="primary" className="button">
+                  <Button
+                    className="cancel-button"
+                    size="sm"
+                    variant="outline-dark"
+                    onClick={() => navigate(-1)}
+                  >
+                    Cancelar
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="sm"
+                    className="button"
+                  >
                     {modo === "edit" ? "Guardar cambios" : "Agregar producto"}
                   </Button>
                 </div>
