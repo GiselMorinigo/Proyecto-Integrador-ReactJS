@@ -1,8 +1,9 @@
 import { Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import useLogin from "./useLogin";
 import { Helmet } from "react-helmet-async";
-import "../../assets/css/Login.css";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import logo from "../../assets/img/fondo.png";
+import "../../assets/css/Login.css";
 
 const Login = () => {
   const {
@@ -28,8 +29,9 @@ const Login = () => {
         <Col xs={12} sm={10} md={8} lg={5} xl={4}>
           <Card className="card-form">
             <Card.Body className="p-5">
-              <h2 className="text-center mb-4 login-title">Iniciar Sesión</h2>
-
+              <div className="mb-4 text-center">
+                <img src={logo} alt="Logo" height={120} />
+              </div>
               <Form
                 onSubmit={handleSubmit}
                 noValidate

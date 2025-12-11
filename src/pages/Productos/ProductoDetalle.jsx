@@ -12,6 +12,7 @@ import {
 import { useParams } from "react-router-dom";
 import { CarritoContext } from "../../components/context/CarritoContext";
 import { Helmet } from "react-helmet-async";
+import { BsCheckLg } from "react-icons/bs";
 
 const API = "https://68d41a53214be68f8c68683d.mockapi.io/api/productos";
 
@@ -42,6 +43,7 @@ const ProductoDetalle = () => {
   const [error, setError] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [sizeError, setSizeError] = useState(false);
+  const [addToCart, setAddToCart] = useState(false);
 
   useEffect(() => {
     const fetchProducto = async () => {
@@ -67,6 +69,11 @@ const ProductoDetalle = () => {
 
     setSizeError(false);
     agregarProducto({ ...detalleProducto, talle: selectedSize });
+    setAddToCart(true);
+
+    setTimeout(() => {
+      setAddToCart(false);
+    }, 2000);
   };
 
   if (cargando) {
@@ -154,14 +161,23 @@ const ProductoDetalle = () => {
               <Button
                 aria-label="Agregar producto"
                 className="button"
+                disabled={addToCart}
                 size="lg"
                 onClick={AgregarCarrito}
+                style={{ transition: "all 0.3s ease" }}
               >
-                Agregar al carrito
+                {addToCart ? (
+                  <div className="d-flex align-items-center justify-content-center gap-2">
+                    <BsCheckLg size={20} />
+                    <span>Producto agregado</span>
+                  </div>
+                ) : (
+                  "Agregar al carrito"
+                )}
               </Button>
             </div>
 
-            <Accordion flush className="mt-3">
+            <Accordion flush className="mt-3 acordion">
               <Accordion.Item eventKey="metodos">
                 <Accordion.Header>Métodos de pago</Accordion.Header>
                 <Accordion.Body>
