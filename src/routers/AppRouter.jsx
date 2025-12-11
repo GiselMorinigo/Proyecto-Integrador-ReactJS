@@ -1,14 +1,14 @@
 import { Route, Routes } from "react-router-dom";
-import Login from "../pages/Auth/Login";
-import Inicio from "../pages/Inicio/Inicio";
-import ListaProductos from "../pages/Productos/ListaProductos";
-import ProductoDetalle from "../pages/Productos/ProductoDetalle";
-import Carrito from "../pages/Carrito/Carrito";
-import Admin from "../pages/Admin/Admin";
-import CrearProducto from "../pages/Productos/CrearProducto";
 import LayoutPublico from "../components/layouts/LayoutPublico";
+import Inicio from "../pages/Inicio/Inicio";
+import Login from "../pages/Auth/Login";
 import RutaProtegida from "../components/layouts/RutaProtegida";
+import ListaProductos from "../pages/Productos/ListaProductos/ListaProductos";
+import ProductoDetalle from "../pages/Productos/ProductoDetalle/ProductoDetalle";
+import Carrito from "../pages/Carrito/Carrito";
 import AdminRoute from "../components/layouts/AdminRoute";
+import Admin from "../pages/Admin/Admin";
+import CrearProducto from "../pages/Productos/CrearProducto/CrearProducto";
 
 const AppRouter = () => {
   return (

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Card,
   Form,
@@ -8,106 +7,25 @@ import {
   Col,
   Image,
 } from "react-bootstrap";
-import "../../assets/css/Productos.css";
-import { useNavigate } from "react-router-dom";
-
-const normalizarCategoria = (str) =>
-  (str || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .replace(/ñ/g, "n");
-
-const CATEGORIES = [
-  { value: "mujer", label: "Mujer" },
-  { value: "hombre", label: "Hombre" },
-  { value: "ninos", label: "Niño/a" },
-];
-
-const INITIAL_VALUES = {
-  nombre: "",
-  subtitulo: "",
-  precio: "",
-  descripcion: "",
-  imagenUrl: "",
-  categoria: "",
-};
+import useProductoForm from "./useCrearProducto";
+import { CATEGORIES } from "../helpers/productForm.utils";
+import "../../../assets/css/Productos.css";
 
 const CrearProducto = ({
   onAgregar,
   modo = "create",
   initialValues = null,
 }) => {
-  const [formValues, setFormValues] = useState(INITIAL_VALUES);
-  const [validated, setValidated] = useState(false);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (modo === "edit" && initialValues) {
-      setFormValues({
-        ...INITIAL_VALUES,
-        ...initialValues,
-        categoria: normalizarCategoria(initialValues.categoria),
-      });
-    } else {
-      setFormValues(INITIAL_VALUES);
-    }
-  }, [modo, initialValues]);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    setFormValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const priceNumber = parseFloat(formValues.precio);
-  const isPriceValid = !Number.isNaN(priceNumber) && priceNumber > 0;
-
-  const isImageUrlValid = () => {
-    const url = formValues.imagenUrl.trim();
-    if (!url) return false;
-
-    return /^https?:\/\/.+/i.test(url);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-
-    const validPrice = isPriceValid;
-    const validImageUrl = isImageUrlValid();
-
-    if (form.checkValidity() === false || !validPrice || !validImageUrl) {
-      event.stopPropagation();
-      setValidated(true);
-      return;
-    }
-
-    setValidated(true);
-
-    const nuevoProducto = {
-      nombre: formValues.nombre.trim(),
-      subtitulo: formValues.subtitulo.trim(),
-      precio: priceNumber,
-      descripcion: formValues.descripcion.trim(),
-      imagenUrl: formValues.imagenUrl.trim(),
-      categoria: normalizarCategoria(formValues.categoria) || "mujer",
-    };
-
-    await onAgregar?.(nuevoProducto);
-    navigate(`/productos/${nuevoProducto.categoria}`);
-
-    if (modo === "create") {
-      setFormValues(INITIAL_VALUES);
-      setValidated(false);
-    }
-  };
-
-  const showPreview = isImageUrlValid();
+  const {
+    formValues,
+    validated,
+    isPriceValid,
+    validImageUrl,
+    showPreview,
+    handleChange,
+    handleSubmit,
+    handleCancel,
+  } = useProductoForm({ modo, initialValues, onAgregar });
 
   return (
     <Container className="py-4">
@@ -116,8 +34,7 @@ const CrearProducto = ({
           <Card className="card-form">
             <Card.Body className="p-5">
               <Card.Title className="mb-3">
-                {" "}
-                {modo === "edit" ? "Editar producto" : "Crear producto"}{" "}
+                {modo === "edit" ? "Editar producto" : "Crear producto"}
               </Card.Title>
 
               <Form
@@ -183,7 +100,7 @@ const CrearProducto = ({
                     placeholder="Ej: https://mis-imagenes.com/camiseta.png"
                     value={formValues.imagenUrl}
                     onChange={handleChange}
-                    isInvalid={validated && !isImageUrlValid()}
+                    isInvalid={validated && !validImageUrl}
                   />
                   <Form.Control.Feedback type="invalid">
                     Ingresá una URL válida que comience con http o https.
@@ -249,7 +166,7 @@ const CrearProducto = ({
                     className="cancel-button"
                     size="sm"
                     variant="outline-dark"
-                    onClick={() => navigate(-1)}
+                    onClick={handleCancel}
                   >
                     Cancelar
                   </Button>

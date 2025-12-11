@@ -1,10 +1,10 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useState } from "react";
-import { Button, Form, InputGroup } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { BsDash, BsPlus } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import "../../assets/css/Carrito.css";
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const CarritoContext = createContext();
 
 const CarritoProvider = ({ children }) => {

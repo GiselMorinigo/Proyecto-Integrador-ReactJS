@@ -1,4 +1,3 @@
-import { useContext, useMemo } from "react";
 import {
   Container,
   Row,
@@ -11,42 +10,20 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { CarritoContext } from "../../components/context/CarritoContext";
+import { FaBagShopping } from "react-icons/fa6";
 import { Helmet } from "react-helmet-async";
-
-const formatearARS = (v) =>
-  new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency: "ARS",
-    minimumFractionDigits: 0,
-  }).format(v);
+import useCarrito from "./useCarito";
 
 const Carrito = () => {
-  const { carrito, eliminarProducto, vaciarCarrito, renderBotonCarrito } =
-    useContext(CarritoContext);
-
-  const navigate = useNavigate();
-
-  const subtotal = useMemo(() => {
-    return carrito.reduce(
-      (acc, p) => acc + (Number(p.precio) || 0) * (p.cant || 1),
-      0
-    );
-  }, [carrito]);
-
-  const handleCheckout = () => {
-    if (carrito.length === 0) {
-      toast.error("El carrito está vacío");
-      return;
-    }
-    toast.success("Compra realizada con éxito 🎉");
-    setTimeout(() => {
-      vaciarCarrito();
-      navigate("/");
-    }, 700);
-  };
+  const {
+    carrito,
+    subtotal,
+    handleCheckout,
+    handleVaciarCarrito,
+    eliminarProducto,
+    renderBotonCarrito,
+    formatARS,
+  } = useCarrito();
 
   return (
     <>
@@ -59,9 +36,13 @@ const Carrito = () => {
       </Helmet>
 
       <Container className="py-4">
+        <h2 className="mb-4">
+          <FaBagShopping className="mb-2" /> Carrito de Compras
+        </h2>
+
         {carrito.length === 0 ? (
           <Card className="p-4 text-center">
-            <p className="mb-0">No hay productos en el carrito.</p>
+            <p className="mb-0 fw-medium">No hay productos en el carrito.</p>
           </Card>
         ) : (
           <Row>
@@ -76,92 +57,93 @@ const Carrito = () => {
                     <div style={{ width: 48 }} />
                   </ListGroup.Item>
 
-                  {carrito.map((prod) => (
-                    <ListGroup.Item
-                      key={prod.id}
-                      className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3 px-4 py-3"
-                    >
-                      <div
-                        style={{ flex: 3 }}
-                        className="d-flex align-items-center gap-3"
+                  {carrito.map((prod) => {
+                    const itemSubtotal =
+                      (Number(prod.precio) || 0) * (Number(prod.cant) || 1);
+                    return (
+                      <ListGroup.Item
+                        key={prod.id}
+                        className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3 px-4 py-3"
                       >
-                        <div style={{ width: 96, minWidth: 96 }}>
-                          <Image
-                            src={prod.imagen}
-                            alt={prod.nombre}
-                            thumbnail
-                            style={{
-                              width: "96px",
-                              height: "96px",
-                              objectFit: "cover",
-                            }}
-                          />
+                        <div
+                          style={{ flex: 3 }}
+                          className="d-flex align-items-center gap-3"
+                        >
+                          <div style={{ width: 96, minWidth: 96 }}>
+                            <Image
+                              src={prod.imagen}
+                              alt={prod.nombre}
+                              thumbnail
+                              style={{
+                                width: "96px",
+                                height: "96px",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </div>
+                          <div>
+                            <div className="fw-semibold">{prod.nombre}</div>
+                            {prod.subtitulo && (
+                              <div className="text-muted small">
+                                {prod.subtitulo}
+                              </div>
+                            )}
+                          </div>
                         </div>
 
-                        <div>
-                          <div className="fw-semibold">{prod.nombre}</div>
-                          {prod.subtitulo && (
-                            <div className="text-muted small">
-                              {prod.subtitulo}
-                            </div>
-                          )}
+                        <div
+                          style={{ flex: 1 }}
+                          className="text-center align-self-center"
+                        >
+                          <div className="fw-medium">
+                            {formatARS(prod.precio)}
+                          </div>
                         </div>
-                      </div>
 
-                      <div
-                        style={{ flex: 1 }}
-                        className="text-center align-self-center"
-                      >
-                        <div className="fw-medium">
-                          {formatearARS(prod.precio)}
+                        <div
+                          style={{ flex: 2 }}
+                          className="d-flex justify-content-center"
+                        >
+                          {renderBotonCarrito(prod)}
                         </div>
-                      </div>
 
-                      <div
-                        style={{ flex: 2 }}
-                        className="d-flex justify-content-center"
-                      >
-                        {renderBotonCarrito(prod)}
-                      </div>
-
-                      <div
-                        style={{ flex: 1 }}
-                        className="text-center align-self-center"
-                      >
-                        <div className="fw-medium">
-                          {formatearARS(
-                            (Number(prod.precio) || 0) * (prod.cant || 1)
-                          )}
+                        <div
+                          style={{ flex: 1 }}
+                          className="text-center align-self-center"
+                        >
+                          <div className="fw-medium">
+                            {formatARS(itemSubtotal)}
+                          </div>
                         </div>
-                      </div>
 
-                      <div
-                        style={{ width: 48 }}
-                        className="text-end align-self-center"
-                      >
-                        <OverlayTrigger overlay={<Tooltip>Eliminar</Tooltip>}>
-                          <Button
-                            variant="link"
-                            className="text-danger p-0"
-                            onClick={() => eliminarProducto(prod)}
-                          >
-                            <BsTrash size={18} />
-                          </Button>
-                        </OverlayTrigger>
-                      </div>
-                    </ListGroup.Item>
-                  ))}
+                        <div
+                          style={{ width: 48 }}
+                          className="text-end align-self-center"
+                        >
+                          <OverlayTrigger overlay={<Tooltip>Eliminar</Tooltip>}>
+                            <Button
+                              variant="link"
+                              className="text-danger p-0"
+                              onClick={() => eliminarProducto(prod)}
+                            >
+                              <BsTrash size={18} />
+                            </Button>
+                          </OverlayTrigger>
+                        </div>
+                      </ListGroup.Item>
+                    );
+                  })}
                 </ListGroup>
               </Card>
             </Col>
 
             <Col lg={4}>
               <Card className="shadow-sm border-0 p-3">
-                <h5 className="mb-3">Resumen de pedido</h5>
+                <h5 className="mb-3">Resumen de Pedido</h5>
 
                 <div className="d-flex justify-content-between mb-2">
                   <div>Subtotal</div>
-                  <div className="fw-semibold">{formatearARS(subtotal)}</div>
+                  <div className="fw-semibold">{formatARS(subtotal)}</div>
                 </div>
 
                 <div className="d-flex justify-content-between mb-3">
@@ -173,7 +155,7 @@ const Carrito = () => {
 
                 <div className="d-flex justify-content-between mb-3">
                   <div className="h6 mb-0">Total</div>
-                  <div className="h6 mb-0">{formatearARS(subtotal)}</div>
+                  <div className="h6 mb-0">{formatARS(subtotal)}</div>
                 </div>
 
                 <Button
@@ -187,10 +169,7 @@ const Carrito = () => {
                 <Button
                   variant="outline-secondary"
                   className="w-100"
-                  onClick={() => {
-                    vaciarCarrito();
-                    toast.success("Carrito vaciado");
-                  }}
+                  onClick={handleVaciarCarrito}
                 >
                   Vaciar carrito
                 </Button>

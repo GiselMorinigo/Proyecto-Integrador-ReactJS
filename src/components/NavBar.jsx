@@ -44,7 +44,7 @@ const NavBar = () => {
             Niños/as
           </Nav.Link>
 
-          {user?.role === "admin" && (
+          {user?.role?.role === "admin" && (
             <Nav.Link as={NavLink} to="/admin" onClick={close}>
               Admin
             </Nav.Link>

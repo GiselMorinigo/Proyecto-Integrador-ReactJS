@@ -1,21 +1,8 @@
 import { Button, ButtonGroup, Card } from "react-bootstrap";
 import { BsPencilFill, BsTrashFill } from "react-icons/bs";
+import { formatARS } from "../../../utils/moneda.utils";
 
-const formatearARS = (v) =>
-  new Intl.NumberFormat("es-AR", {
-    style: "currency",
-    currency: "ARS",
-    minimumFractionDigits: 0,
-  }).format(v);
-
-const ProductCard = ({
-  prod,
-  renderBotonCarrito,
-  verDetalle,
-  user,
-  onEdit,
-  onDelete,
-}) => {
+const ProductCard = ({ prod, verDetalle, user, onEdit, onDelete }) => {
   const handleImgError = (e) => {
     e.currentTarget.src = "/placeholder.png";
   };
@@ -39,9 +26,9 @@ const ProductCard = ({
         </Card.Subtitle>
 
         <div className="d-flex justify-content-between align-items-center mb-2">
-          <Card.Text>{formatearARS(prod.precio)}</Card.Text>
+          <Card.Text>{formatARS(prod.precio)}</Card.Text>
 
-          {user.role === "admin" && (
+          {user?.role?.role === "admin" && (
             <div className="d-flex justify-content-center mb-3">
               <ButtonGroup>
                 <Button
@@ -63,9 +50,6 @@ const ProductCard = ({
               </ButtonGroup>
             </div>
           )}
-        </div>
-        <div className="mt-auto stepper-container">
-          {renderBotonCarrito(prod)}
         </div>
       </Card.Body>
     </Card>

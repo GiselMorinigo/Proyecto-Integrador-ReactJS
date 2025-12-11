@@ -1,103 +1,23 @@
 import { Alert, Container } from "react-bootstrap";
-import CrearProducto from "../Productos/CrearProducto";
-import { useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { useAuthContext } from "../../components/context/AuthContext";
-
-const API_URL = "https://68d41a53214be68f8c68683d.mockapi.io/api/productos";
+import useAdmin from "./useAdmin";
+import CrearProducto from "../Productos/CrearProducto/CrearProducto";
 
 const Admin = () => {
-  const [error, setError] = useState(null);
-  const [message, setMessage] = useState(null);
+  const {
+    modo,
+    message,
+    setMessage,
+    error,
+    setError,
+    getInitialValues,
+    crearProducto,
+    editarProducto,
+    productEdit,
+  } = useAdmin();
 
-  const { state } = useLocation();
-  const { user } = useAuthContext();
-  const navigate = useNavigate();
-
-  const modo = state?.mode === "edit" ? "edit" : "create";
-  const productEdit = state?.product || null;
-
-  useEffect(() => {
-    if (!user || user.role !== "admin") {
-      navigate("/", { replace: true });
-    }
-  }, [user, navigate]);
-
-  useEffect(() => {
-    setError(null);
-    setMessage(null);
-  }, [modo, productEdit?.id]);
-
-  const crearProducto = async (nuevoProducto) => {
-    try {
-      const payload = {
-        nombre: nuevoProducto.nombre.trim(),
-        subtitulo: nuevoProducto.subtitulo.trim(),
-        precio: Number(nuevoProducto.precio),
-        descripcion: nuevoProducto.descripcion.trim(),
-        imagen: nuevoProducto.imagenUrl.trim(),
-        categoria: nuevoProducto.categoria || "mujer",
-      };
-
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-      const data = await response.json();
-      setMessage("Producto creado correctamente 🎉");
-
-      return data;
-    } catch (err) {
-      console.error(err);
-      setError("No se pudo crear el producto. Intentalo de nuevo.");
-    }
-  };
-
-  const editarProducto = async (productoEditado) => {
-    try {
-      setError(null);
-      setMessage(null);
-      const payload = {
-        nombre: productoEditado.nombre.trim(),
-        subtitulo: productoEditado.subtitulo.trim(),
-        precio: Number(productoEditado.precio),
-        descripcion: productoEditado.descripcion.trim(),
-        imagen: productoEditado.imagenUrl.trim(),
-        categoria: productoEditado.categoria,
-      };
-
-      const res = await fetch(`${API_URL}/${productEdit.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      setMessage("Producto editado correctamente 🎉");
-
-      return data;
-    } catch (error) {
-      setError("No se pudo editar el producto. Intentalo de nuevo.");
-      console.error("Error al editar el producto:", error);
-    }
-  };
-
-  const initialValues = useMemo(() => {
-    if (!productEdit) return null;
-    return {
-      nombre: productEdit.nombre ?? "",
-      subtitulo: productEdit.subtitulo ?? "",
-      precio: String(productEdit.precio ?? ""),
-      descripcion: productEdit.descripcion ?? "",
-      imagenUrl: productEdit.imagen ?? "",
-      categoria: productEdit.categoria ?? "",
-    };
-  }, [productEdit]);
+  const initialValues = modo === "edit" ? getInitialValues(productEdit) : null;
+  const onAgregar = modo === "edit" ? editarProducto : crearProducto;
 
   return (
     <>
@@ -135,7 +55,7 @@ const Admin = () => {
         <CrearProducto
           modo={modo}
           initialValues={initialValues}
-          onAgregar={modo === "edit" ? editarProducto : crearProducto}
+          onAgregar={onAgregar}
         />
       </Container>
     </>
