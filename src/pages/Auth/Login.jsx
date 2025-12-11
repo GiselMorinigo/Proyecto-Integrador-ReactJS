@@ -3,7 +3,6 @@ import useLogin from "./useLogin";
 import { Helmet } from "react-helmet-async";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import logo from "../../assets/img/fondo.png";
-import "../../assets/css/Login.css";
 
 const Login = () => {
   const {
