@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import { BsDash, BsPlus } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import "../../assets/css/Carrito.css";
+import "../../assets/css/carrito.css";
 
 export const CarritoContext = createContext();
 
