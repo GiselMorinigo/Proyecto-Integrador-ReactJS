@@ -1,20 +1,12 @@
-import { useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
 import AppRouter from "./routers/AppRouter";
 
 const App = () => {
-  const [isAuthenticate, setIsAuthenticate] = useState(
-    () => localStorage.getItem("isAuthenticate") === "true"
-  );
-
-  useEffect(() => {
-    localStorage.setItem("isAuthenticate", isAuthenticate);
-  }, [isAuthenticate]);
-
   return (
-    <AppRouter
-      isAuthenticate={isAuthenticate}
-      setIsAuthenticate={setIsAuthenticate}
-    />
+    <>
+      <AppRouter />
+      <Toaster position="top-right" reverseOrder={false} />
+    </>
   );
 };
 

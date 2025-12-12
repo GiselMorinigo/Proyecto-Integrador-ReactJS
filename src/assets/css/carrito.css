@@ -1,0 +1,116 @@
+.stepper-compact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 36px;
+  background: #ffffff;
+  min-width: 110px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.stepper-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 100%;
+  border: none;
+  background: #f7f7f7;
+  color: #333;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.stepper-btn:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.08);
+  outline-offset: 1px;
+}
+
+.stepper-btn:hover {
+  background: #efefef;
+}
+
+.stepper-value {
+  min-width: 40px;
+  text-align: center;
+  font-weight: 600;
+  color: #222;
+  font-size: 14px;
+  padding: 0 6px;
+}
+
+.stepper-btn--left,
+.stepper-btn--right {
+  background: #fafafa;
+}
+
+.stepper-btn--left:hover,
+.stepper-btn--right:hover {
+  background: #f0f0f0;
+}
+
+@media (max-width: 576px) {
+  .stepper-compact {
+    height: 32px;
+    min-width: 94px;
+  }
+  .stepper-btn {
+    width: 32px;
+    font-size: 14px;
+  }
+  .stepper-value {
+    min-width: 34px;
+    font-size: 13px;
+  }
+}
+
+.button.w-100 {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+
+.button.w-100:hover {
+  background: #000;
+  border-color: #000;
+}
+
+.size-chip {
+  min-width: 64px;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid #d0d7de;
+  border-radius: 10px;
+  background-color: #fff;
+  color: var(--bs-body-color);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.size-chip:hover {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 2px rgba(var(--bs-primary-rgb), 0.15);
+}
+
+.size-chip.active {
+  border-color: var(--bs-primary);
+  background-color: rgba(var(--bs-primary-rgb), 0.06);
+  color: var(--bs-primary-text-emphasis, #0d6efd);
+}
+
+.size-chip:focus-visible {
+  outline: 2px solid rgba(var(--bs-primary-rgb), 0.35);
+  outline-offset: 2px;
+}

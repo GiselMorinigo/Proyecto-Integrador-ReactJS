@@ -1,0 +1,51 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+}
+
+.span-custom-right {
+  margin-right: 10px;
+}
+
+.logo-title {
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+  font-size: 1.8rem;
+  font-style: italic;
+  margin: 0 50px 0 50px;
+}
+
+@media (min-width: 992px) {
+  .navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.layout-content {
+  flex: 1;
+}
+
+.footer {
+  background-color: #f1f1f1;
+  padding: 15px 0;
+  text-align: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.footer p {
+  margin: 0;
+}

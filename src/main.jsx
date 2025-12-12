@@ -1,16 +1,24 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./assets/css/style.css";
 import App from "./App.jsx";
 import { BrowserRouter as Router } from "react-router-dom";
+import CarritoProvider from "./components/context/CarritoContext.jsx";
+import { AuthProvider } from "./components/context/AuthContext.jsx";
+import "./assets/css/index.css";
+import { SearchProvider } from "./components/context/SearchContext.jsx";
 
 const root = createRoot(document.getElementById("root"));
 
 root.render(
   <StrictMode>
-    <Router basename="/Proyecto-Integrador-ReactJS">
-      <App />
-    </Router>
+    <SearchProvider>
+      <AuthProvider>
+        <Router>
+          <CarritoProvider>
+            <App />
+          </CarritoProvider>
+        </Router>
+      </AuthProvider>
+    </SearchProvider>
   </StrictMode>
 );
