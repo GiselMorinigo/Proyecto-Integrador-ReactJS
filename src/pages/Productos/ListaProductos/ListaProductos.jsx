@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
-import { Helmet } from "react-helmet-async";
 import { CarritoContext } from "../../../components/context/CarritoContext";
 import { useAuthContext } from "../../../components/context/AuthContext"; // ⬅️ Reinsertamos la importación
 import ModalEliminarProducto from "../components/modalEliminarProd";
@@ -100,31 +99,19 @@ const ListaProductos = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>
-          Gérmoni | {`Moda para ${categoria ? categoria : "todos"}`}
-        </title>
-        <meta
-          name="description"
-          content="Página que muestra la lista de productos disponibles en Gérmoni"
-        />
-      </Helmet>
+    <div style={{ padding: "20px" }} ref={contentRef}>
+      <h2 className="mb-4 text-capitalize">
+        {categoria ? `Categoría: ${categoria}` : "Todos los productos"}
+      </h2>
+      {renderContent()}
 
-      <div style={{ padding: "20px" }} ref={contentRef}>
-        <h2 className="mb-4 text-capitalize">
-          {categoria ? `Categoría: ${categoria}` : "Todos los productos"}
-        </h2>
-        {renderContent()}
-
-        <ModalEliminarProducto
-          show={showModal}
-          producto={prodSeleccionado}
-          onClose={closeModalDelete}
-          onConfirm={confirmDelete}
-        />
-      </div>
-    </>
+      <ModalEliminarProducto
+        show={showModal}
+        producto={prodSeleccionado}
+        onClose={closeModalDelete}
+        onConfirm={confirmDelete}
+      />
+    </div>
   );
 };
 
