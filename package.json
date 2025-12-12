@@ -1,13 +1,10 @@
 {
   "name": "mi-proyecto-react",
   "private": true,
-  "homepage": "https://giselmorinigo.github.io/Proyecto-Integrador-ReactJS/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "vite",
     "build": "vite build"
   },
   "dependencies": {
